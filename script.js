@@ -7,9 +7,9 @@ btnTask.addEventListener("click", (e) => {
     e.preventDefault();
     const nameTask = inputTask.value;
 
-    if(nameTask.value== ""){
-        alert('kamu belum menambahkan tugas')
-        return
+    if (nameTask.value == "") {
+        alert("kamu belum menambahkan tugas");
+        return;
     }
 
     let newTodo = `<li>
@@ -25,11 +25,7 @@ btnTask.addEventListener("click", (e) => {
     taskList.insertAdjacentHTML("afterbegin", newTodo);
 
     inputTask.value = " ";
-
-    
 });
-
-
 
 const done = (task) => {
     task.classList.toggle("complete");
