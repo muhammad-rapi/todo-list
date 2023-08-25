@@ -1,38 +1,46 @@
-const inputTask = document.querySelector(".input-task");
-const btnTask = document.querySelector(".btn-task");
-const taskList = document.querySelector(".task-list");
-const task = document.querySelector(".task");
+const inputBox = document.querySelector(".input-box");
+const listContainer = document.querySelector(".list-container");
+const trash = document.querySelector(".trash");
+const addTask = document.querySelector(".add-task");
 
-btnTask.addEventListener("click", (e) => {
-    e.preventDefault();
-    const nameTask = inputTask.value;
-
-    if (nameTask.value == "") {
-        alert("kamu belum menambahkan tugas");
-        return;
+addTask.addEventListener("click", () => {
+    if (inputBox.value === "") {
+        Swal.fire("Gagal", "kamu belum memasukkan task kamu", "question");
+    } else {
+        let li = document.createElement("li");
+        listContainer.appendChild(li);
+        let span = document.createElement("span");
+        span.innerText = inputBox.value;
+        li.appendChild(span);
+        li.innerHTML += `<img src="img/trash.png" class="trash" alt="">`;
     }
-
-    let newTodo = `<li>
-                    <span class="task">${nameTask}</span>
-                        <button onclick="done(this.previousElementSibling)">
-                            <i class="fa-solid fa-circle-check"></i>
-                        </button>
-                        <button onclick="hapus(this.parentElement)">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </li>`;
-
-    taskList.insertAdjacentHTML("afterbegin", newTodo);
-
-    inputTask.value = " ";
+    saveData();
+    inputBox.value = "";
 });
 
-const done = (task) => {
-    task.classList.toggle("complete");
-    alert("selamat kamu sudah menyelesaikan satu tugas");
+listContainer.addEventListener(
+    "click",
+    (e) => {
+        if (e.target.tagName === "LI") {
+            e.target.classList.toggle("checked");
+            saveData();
+        } else if (e.target.tagName === "IMG") {
+            e.target.parentElement.remove();
+            deleteTask();
+        }
+    },
+    false
+);
+
+const saveData = () => {
+    localStorage.setItem("task", listContainer.innerHTML);
+};
+const showTask = () => {
+    listContainer.innerHTML = localStorage.getItem("task");
 };
 
-const hapus = (taskElement) => {
-    const tanya = confirm("apakah kamu yakin?");
-    if (tanya) taskElement.remove();
+const deleteTask = () => {
+    localStorage.removeItem("task");
 };
+
+showTask();
