@@ -5,6 +5,10 @@
     font-family: "Poppins", sans-serif;
 }
 
+body{
+    overflow-x: hidden;
+}
+
 .container {
     background-color: #232946;
     width: 100%;
